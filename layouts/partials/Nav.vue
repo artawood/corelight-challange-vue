@@ -45,4 +45,8 @@ header {
 .text-white {
   color: #ffffff;
 }
+
+.nav-item {
+  margin: 10px;
+}
 </style>
