@@ -1,8 +1,22 @@
 <template>
   <div>
+    <Nav/>
+    <Jumbotron/>
     <nuxt/>
   </div>
 </template>
+
+<script>
+import Nav from './partials/Nav'
+import Jumbotron from './partials/Jumbotron'
+
+export default {
+  components: {
+    Nav,
+    Jumbotron
+  }
+}
+</script>
 
 <style>
 html {
