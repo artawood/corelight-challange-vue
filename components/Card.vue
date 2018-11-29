@@ -1,15 +1,8 @@
 <template>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{{ blogTitle }}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a 
-        href="#" 
-        class="card-link">Like</a>
-      <a 
-        href="#" 
-        class="card-link">Comment</a>
+  <div id="card" class="card">
+    <div v-for="result in results" :key="result.id" class="card-body">
+      <h5 class="card-title">{{ result.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ result.datePosted }}</h6>
     </div>
   </div>
 </template>
@@ -20,19 +13,52 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const URL = 'https://corelight.blog/'
 
-const vm = new Vue({
-  el: '#app',
-  data: {
-    blogTitle: 'Hello!',
-    datePosted: '',
-    author: '',
-    summary: '',
-    details: '',
-    imageURL: ''
+export default {
+  data() {
+    return {
+      results: []
+    }
+  },
+  created: function() {
+    this.loadBlogs()
+  },
+  methods: {
+    loadBlogs: function() {
+      axios
+        .get(URL)
+        .then(({ data }) => {
+          const $ = cheerio.load(data)
+          $('.post').each((i, element) => {
+            const title = $(element)
+              .children('.content-inner')
+              .children('.post-header')
+              .children('.post-title')
+              .children('a')
+              .text()
+            const datePosted = $(element)
+              .children('.content-inner')
+              .children('.post-header')
+              .children('.post-meta')
+              .children('.posted-on')
+              .children('a')
+              .children('.published')
+              .text()
+            this.$set(
+              this.results,
+              i,
+              Object.assign({}, this.results, {
+                id: i + 1,
+                title: title,
+                datePosted: datePosted
+              })
+            )
+          })
+          // console.log(this.results)
+        })
+        .catch(console.error)
+    }
   }
-})
-
-vm.blogTitle = 'This is the blog title'
+}
 </script>
 
 <style>

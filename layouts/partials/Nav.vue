@@ -1,6 +1,6 @@
 <template>
   <header>
-    <b-nav class="container">
+    <!-- <b-nav class="container">
       <b-nav-item>
         <nuxt-link 
           to="/" 
@@ -29,7 +29,7 @@
         class="text-white"
         href="https://corelight.com/" 
         target="_blank">Corelight.com</a></b-nav-item>
-    </b-nav>
+    </b-nav> -->
   </header>
 </template>
 
